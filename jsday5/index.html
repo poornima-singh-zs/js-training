@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table with Random Dates</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <table id="dateTable">
+        <thead>
+            <tr>
+                <th>Random Date</th>
+                <th>Ascending Dates</th>
+                <th>Descending Dates</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        
+        const generateRandomDate = (start, end) => {
+            const randomTimestamp = new Date(start).getTime() + Math.random() * (new Date(end).getTime() - new Date(start).getTime());
+            return new Date(randomTimestamp).toISOString().split('T')[0]; 
+        };
+
+       
+        const populateTable = (rows) => {
+            const tbody = document.querySelector("#dateTable tbody");
+            const randomDates = [];
+
+            for (let i = 0; i < rows; i++) {
+                randomDates.push(generateRandomDate('2020-01-01', '2025-12-31'));
+            }
+
+            const ascendingDates = randomDates.slice().sort((prev, next) => new Date(prev) - new Date(next));
+
+            const descendingDates = ascendingDates.slice().reverse();
+
+            for (let i = 0; i < rows; i++) {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${randomDates[i]}</td>
+                        <td>${ascendingDates[i]}</td>
+                        <td>${descendingDates[i]}</td>
+                    </tr>
+                `;
+            }
+        };
+
+        populateTable(5);
+
+        
+    
+    </script>
+</body>
+</html>
